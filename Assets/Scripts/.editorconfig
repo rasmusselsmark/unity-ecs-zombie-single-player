@@ -1,0 +1,21 @@
+root = true
+
+[*]
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 4
+
+[*.meta]
+indent_size = 2
+trim_trailing_whitespace = false
+
+[*.cs.meta]
+insert_final_newline = false
+
+[*.{csproj,json,sh}]
+indent_size = 2
+
+[*.md]
+trim_trailing_whitespace = false

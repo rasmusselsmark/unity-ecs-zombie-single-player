@@ -1,14 +1,16 @@
 using Components;
 using Unity.Entities;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Authoring
 {
     public class PlayerAuthoring : MonoBehaviour
     {
         public float Speed;
-        public float JumpForce;
-        
+        public float JumpHeight;
+        public float TurnSpeed;
+
         private class PlayerAuthoringBaker : Baker<PlayerAuthoring>
         {
             public override void Bake(PlayerAuthoring authoring)
@@ -17,7 +19,8 @@ namespace Authoring
                 AddComponent(entity, new PlayerData
                 {
                     Speed = authoring.Speed,
-                    JumpForce = authoring.JumpForce
+                    JumpHeight = authoring.JumpHeight,
+                    TurnSpeed = authoring.TurnSpeed,
                 });
             }
         }

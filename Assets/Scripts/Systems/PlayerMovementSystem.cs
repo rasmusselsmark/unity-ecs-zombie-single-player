@@ -2,7 +2,9 @@ using Components;
 using Unity.Burst;
 using Unity.Entities;
 using Unity.Mathematics;
+using Unity.Physics;
 using Unity.Transforms;
+using UnityEngine;
 
 namespace Systems
 {
@@ -17,13 +19,39 @@ namespace Systems
         [BurstCompile]
         public void OnUpdate(ref SystemState state)
         {
-            foreach (var (playerData, transform) in SystemAPI.Query<RefRO<PlayerData>, RefRW<LocalTransform>>())
+            var deltaTime = SystemAPI.Time.DeltaTime;
+            foreach (var (playerData, transform, mass, velocity) in SystemAPI
+                .Query<RefRW<PlayerData>, RefRW<LocalTransform>, RefRO<PhysicsMass>, RefRW<PhysicsVelocity>>())
             {
-                transform.ValueRW = transform.ValueRW.Translate(
-                    transform.ValueRW.Forward() * playerData.ValueRO.Speed * SystemAPI.Time.DeltaTime);
-                
-                // freeze rotation of player in code
-                transform.ValueRW.Rotation = quaternion.identity;
+                // rotation
+                playerData.ValueRW.Rotation +=
+                    Input.GetAxis("Horizontal") * playerData.ValueRO.TurnSpeed * deltaTime;
+                var rotation = quaternion.Euler(0f, playerData.ValueRW.Rotation, 0f);
+
+                // jump
+                // TODO: implement collider/grounding and lerp jump velocity
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    playerData.ValueRW.JumpVelocity = transform.ValueRW.Up() * playerData.ValueRO.JumpHeight;
+                }
+                else if (playerData.ValueRW.JumpVelocity.y > 0f)
+                {
+                    playerData.ValueRW.JumpVelocity = -math.abs(playerData.ValueRW.JumpVelocity * deltaTime);
+                }
+
+                // movement
+                var forward = Input.GetAxis("Vertical") * transform.ValueRW.Forward()
+                                                        * playerData.ValueRO.Speed * deltaTime;
+                velocity.ValueRW = PhysicsVelocity.CalculateVelocityToTarget(
+                    bodyMass: mass.ValueRO,
+                    bodyPosition: transform.ValueRO.Position,
+                    bodyOrientation: transform.ValueRO.Rotation,
+                    targetTransform: new RigidTransform(
+                        rotation,
+                        transform.ValueRO.Position
+                        + forward
+                        + playerData.ValueRW.JumpVelocity),
+                    stepFrequency: 1f / deltaTime);
             }
         }
     }
