@@ -19,33 +19,26 @@ namespace Systems
         public void OnUpdate(ref SystemState state)
         {
             foreach (var (spawner, playerTransform)
-                     in SystemAPI.Query<RefRW<BulletSpawnerData>, RefRW<LocalTransform>>())
+                     in SystemAPI.Query<RefRO<BulletSpawnerData>, RefRO<LocalTransform>>())
             {
                 if (Input.GetButtonDown("Fire1"))
                 {
-                    var bullet = state.EntityManager.Instantiate(spawner.ValueRO.BulletPrefab);
+                    var bullet = state.EntityManager.Instantiate(spawner.ValueRO.Prefab);
                     state.EntityManager.SetName(bullet, "Bullet");
-                    // state.EntityManager.SetComponentData(
-                    //     bullet,
-                    //     LocalTransform.FromPosition(position.ValueRO.Position));
 
-                    var position = playerTransform.ValueRO.Position;
-
-                    // position bullet in front of player
+                    // place bullet in front of player
                     var transform = LocalTransform.FromPositionRotation(
-                        new float3(position.x, position.y, position.z),
+                        playerTransform.ValueRO.Position,
                         new quaternion(playerTransform.ValueRO.Rotation.value));
-                    transform = transform.Translate(transform.Forward() * 2f);
+                    transform = transform.Translate(transform.Forward() * 1f);
 
                     state.EntityManager.SetComponentData(bullet, transform);
+                    state.EntityManager.SetComponentData(bullet, new ForwardMovementData
+                    {
+                        Speed = 10f,
+                    });
                 }
             }
-        }
-
-        [BurstCompile]
-        public void OnDestroy(ref SystemState state)
-        {
-
         }
     }
 }

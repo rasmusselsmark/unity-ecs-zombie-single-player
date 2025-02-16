@@ -4,6 +4,6 @@ namespace Components
 {
     public struct BulletSpawnerData : IComponentData
     {
-        public Entity BulletPrefab { get; set; }
+        public Entity Prefab { get; set; }
     }
 }

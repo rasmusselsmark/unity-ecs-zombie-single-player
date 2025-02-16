@@ -12,6 +12,10 @@ namespace Authoring
             {
                 var entity = GetEntity(TransformUsageFlags.Dynamic);
                 AddComponent<BulletTag>(entity);
+                AddComponent(entity, new ForwardMovementData()
+                {
+                    Speed = 2f,
+                });
             }
         }
     }
