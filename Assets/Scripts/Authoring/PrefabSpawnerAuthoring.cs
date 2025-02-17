@@ -24,6 +24,7 @@ namespace Authoring
                     Prefab = prefab,
                     // Name = authoring.Name,
                     Interval = authoring.Interval,
+                    TimeToNextSpawn = authoring.Interval,
                 });
             }
         }

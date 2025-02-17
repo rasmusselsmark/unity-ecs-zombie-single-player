@@ -20,11 +20,11 @@ namespace Systems
             foreach (var (spawner, spawnerTransform)
                      in SystemAPI.Query<RefRW<PrefabSpawnerData>, RefRO<LocalTransform>>())
             {
-                spawner.ValueRW.Interval -= SystemAPI.Time.DeltaTime;
-                if (spawner.ValueRW.Interval > 0)
+                spawner.ValueRW.TimeToNextSpawn -= SystemAPI.Time.DeltaTime;
+                if (spawner.ValueRW.TimeToNextSpawn > 0)
                     continue;
 
-                spawner.ValueRW.Interval = 1;
+                spawner.ValueRW.TimeToNextSpawn = spawner.ValueRO.Interval;
 
                 var go = state.EntityManager.Instantiate(spawner.ValueRO.Prefab);
                 // state.EntityManager.SetName(go, spawner.ValueRO.Name);

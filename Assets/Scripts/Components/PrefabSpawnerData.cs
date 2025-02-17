@@ -7,6 +7,8 @@ namespace Components
     {
         public Entity Prefab { get; set; }
         public float Interval { get; set; }
+
+        internal float TimeToNextSpawn;
         // public FixedString32Bytes Name { get; set; }
     }
 }
