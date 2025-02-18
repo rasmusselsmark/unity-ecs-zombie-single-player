@@ -21,7 +21,7 @@ namespace Systems
             foreach (var (spawner, playerTransform)
                      in SystemAPI.Query<RefRO<BulletSpawnerData>, RefRO<LocalTransform>>())
             {
-                if (Input.GetKeyDown(KeyCode.LeftShift))
+                if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetButtonDown("Fire1"))
                 {
                     var bullet = state.EntityManager.Instantiate(spawner.ValueRO.Prefab);
                     state.EntityManager.SetName(bullet, "Bullet");
@@ -37,6 +37,10 @@ namespace Systems
                     state.EntityManager.SetComponentData(bullet, new ForwardMovementData
                     {
                         Speed = 20f,
+                    });
+                    state.EntityManager.SetComponentData(bullet, new EntityExpiresData
+                    {
+                        Seconds = 2f,
                     });
                 }
             }
