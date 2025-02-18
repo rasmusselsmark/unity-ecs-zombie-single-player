@@ -1,9 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
 using Unity.Burst;
 using Unity.Entities;
-using UnityEngine;
 
 [UpdateInGroup(typeof(FixedStepSimulationSystemGroup), OrderLast = true)]
 [BurstCompile]

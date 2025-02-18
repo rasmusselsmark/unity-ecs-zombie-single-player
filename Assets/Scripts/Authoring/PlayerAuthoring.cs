@@ -1,7 +1,6 @@
 using Components;
 using Unity.Entities;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Authoring
 {
