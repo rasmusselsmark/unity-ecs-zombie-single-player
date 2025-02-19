@@ -1,4 +1,4 @@
-# unity-ecs-zombie-invasion
+# unity-ecs-zombie-single-player
 
 ![Gameplay](./docs/images/gameplay.png)
 
