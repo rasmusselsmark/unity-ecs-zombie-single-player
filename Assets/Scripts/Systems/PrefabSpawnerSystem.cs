@@ -6,6 +6,7 @@ using Unity.Transforms;
 
 namespace Systems
 {
+    [UpdateInGroup(typeof(TransformSystemGroup))] // ensure entity is rendered at correct position
     public partial struct PrefabSpawnerSystem : ISystem
     {
         [BurstCompile]
