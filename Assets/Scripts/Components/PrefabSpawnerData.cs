@@ -1,3 +1,4 @@
+using Unity.Collections;
 using Unity.Entities;
 
 namespace Components
@@ -8,6 +9,6 @@ namespace Components
         public float Interval { get; set; }
 
         internal float TimeToNextSpawn;
-        // public FixedString32Bytes Name { get; set; }
+        public FixedString64Bytes Name { get; set; }
     }
 }

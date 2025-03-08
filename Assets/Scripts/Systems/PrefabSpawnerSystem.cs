@@ -28,7 +28,7 @@ namespace Systems
                 spawner.ValueRW.TimeToNextSpawn = spawner.ValueRO.Interval;
 
                 var go = state.EntityManager.Instantiate(spawner.ValueRO.Prefab);
-                // state.EntityManager.SetName(go, spawner.ValueRO.Name);
+                state.EntityManager.SetName(go, spawner.ValueRO.Name);
 
                 // place spawned object at position of spawner
                 var transform = LocalTransform.FromPositionRotation(

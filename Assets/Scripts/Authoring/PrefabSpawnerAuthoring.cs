@@ -22,7 +22,7 @@ namespace Authoring
                 AddComponent(entity, new PrefabSpawnerData
                 {
                     Prefab = prefab,
-                    // Name = authoring.Name,
+                    Name = authoring.Name,
                     Interval = authoring.Interval,
                     TimeToNextSpawn = authoring.Interval,
                 });
